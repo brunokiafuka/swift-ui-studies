@@ -14,11 +14,16 @@ struct MemoryGame<CardContent> {
     
     init(numberOfPairsOfCards: Int, cardContentContentFactory: (Int) -> CardContent) {
         cards = Array<Card>()
+        var unshuffledCards =  Array<Card>()
+        
         for pairIdx in 0 ..< numberOfPairsOfCards {
             let content = cardContentContentFactory(pairIdx)
-            cards.append(Card(isFacedUp: false, isMatched: false, content: content, id: pairIdx * 2))
-            cards.append(Card(isFacedUp: false, isMatched: false, content: content, id: pairIdx * 2 + 1))
+            unshuffledCards.append(Card(isFacedUp: false, isMatched: false, content: content, id: pairIdx * 2))
+            unshuffledCards.append(Card(isFacedUp: false, isMatched: false, content: content, id: pairIdx * 2 + 1))
         }
+        
+        unshuffledCards.shuffle()
+        cards.append(contentsOf: unshuffledCards)
     }
     
     func choose(card: Card) {
